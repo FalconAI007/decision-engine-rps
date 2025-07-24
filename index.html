@@ -2,51 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Decision Engine: Phase Shift</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Background Video -->
   <video autoplay muted loop playsinline id="bg-video">
     <source src="assets/matrix-background.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
-  <!-- Start Screen -->
   <div id="start-screen">
     <h1>Decision Engine: Phase Shift</h1>
     <button onclick="startGame()">Start Game</button>
   </div>
 
-  <!-- Background Music -->
   <audio id="bg-music" src="assets/background.mp3" loop></audio>
 
-  <!-- Typewriter Story -->
   <div id="typewriter" style="display:none;"></div>
 
-  <!-- Round Selection -->
+  <p id="restartMessage" style="display: none;"></p>
+
   <div id="round-selection" style="display:none;">
     <h2>Select Rounds</h2>
     <button onclick="setRounds(5)">Best of 5</button>
     <button onclick="setRounds(10)">Best of 10</button>
   </div>
 
-  <!-- Game Area -->
   <div id="game" style="display:none;">
     <div id="score"></div>
     <div id="playerMove"></div>
     <div id="computerMove"></div>
+    
     <div id="choices">
-      <button onclick="playRound('rock')"><img src="assets/rock.png" alt="Rock"></button>
-      <button onclick="playRound('paper')"><img src="assets/paper.png" alt="Paper"></button>
-      <button onclick="playRound('scissors')"><img src="assets/scissors.png" alt="Scissors"></button>
+      <button onclick="playRound('rock')"><img src="assets/rock.png" alt="Rock" /></button>
+      <button onclick="playRound('paper')"><img src="assets/paper.png" alt="Paper" /></button>
+      <button onclick="playRound('scissors')"><img src="assets/scissors.png" alt="Scissors" /></button>
     </div>
+
     <div id="roundResult"></div>
     <div id="finalResult"></div>
+
     <button id="restart" onclick="restartGame()">🔁 Restart Game</button>
-    <p id="restartMessage"></p>
   </div>
 
   <script src="script.js"></script>

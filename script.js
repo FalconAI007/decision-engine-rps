@@ -4,30 +4,30 @@ let computerScore = 0;
 let totalRounds = 0;
 let currentRound = 0;
 
-const backgroundMusic = document.getElementById("bg-music");
-backgroundMusic.loop = true;
+const bgMusic = document.getElementById("bg-music");
+bgMusic.loop = true;
 
 const playerMessages = {
-  rock: "🪨 You deploy Solidity. Quiet but firm.",
-  paper: "📜 You unfold the blueprint. Calm precision.",
-  scissors: "✂️ You cut through the noise. Intent clear."
+  rock: "🪨 You cut through the noise. Intent clear.",
+  paper: "📜 You lay out the plan. Transparent and exposed.",
+  scissors: "✂️ You disrupt structure. A clean incision."
 };
 
 const computerMessages = {
-  rock: "🪨 The Engine grounds with mass. It watches.",
-  paper: "📜 Layers of logic veil the anomaly.",
-  scissors: "✂️ Systems slice with surgical precision."
+  rock: "🪨 The Engine chooses ROCK. Stability enforced.",
+  paper: "📜 The Engine chooses PAPER. Layers veil the anomaly.",
+  scissors: "✂️ The Engine chooses SCISSORS. Code sliced clean."
 };
 
 function startGame() {
   document.getElementById("start-screen").style.display = "none";
   document.getElementById("typewriter").style.display = "block";
-  backgroundMusic.play().catch(() => {});
+  bgMusic.play().catch(() => {});
   loadStory();
 }
 
 function loadStory() {
-  const storyLines = [
+  const lines = [
     "In a world rewritten by code, where past, present, and future converge...",
     "You are not just a player. You are the anomaly.",
     "ACM—The Archive of Conscious Minds—has activated the Decision Engine to test your deviation from deterministic logic.",
@@ -37,17 +37,17 @@ function loadStory() {
   ];
 
   let i = 0;
-  const typeDiv = document.getElementById("typewriter");
-  typeDiv.innerText = "";
+  const div = document.getElementById("typewriter");
+  div.innerText = "";
   const interval = setInterval(() => {
-    if (i < storyLines.length) {
-      typeDiv.innerHTML += storyLines[i] + "\n\n";
+    if (i < lines.length) {
+      div.innerHTML += lines[i] + "\n\n";
       i++;
     } else {
       clearInterval(interval);
       document.getElementById("round-selection").style.display = "block";
     }
-  }, 180); // slower typewriter effect
+  }, 180);
 }
 
 function setRounds(n) {
@@ -59,10 +59,14 @@ function setRounds(n) {
   document.getElementById("round-selection").style.display = "none";
   document.getElementById("game").style.display = "block";
   document.getElementById("restart").style.display = "none";
-  document.getElementById("restartMessage").innerText = "";
+  document.getElementById("restartMessage").style.display = "none";
 
   clearResults();
   updateScore();
+  document.getElementById("choices").style.display = "flex";
+  document.getElementById("playerMove").style.display = "block";
+  document.getElementById("computerMove").style.display = "block";
+  document.getElementById("roundResult").style.display = "block";
 }
 
 function playRound(playerChoice) {
@@ -71,11 +75,11 @@ function playRound(playerChoice) {
   const computerChoice = choices[Math.floor(Math.random() * choices.length)];
 
   document.getElementById("playerMove").innerText = playerMessages[playerChoice];
-  document.getElementById("computerMove").innerText = `🤖 The Engine chooses ${computerChoice.toUpperCase()}. ${computerMessages[computerChoice]}`;
+  document.getElementById("computerMove").innerText = computerMessages[computerChoice];
 
   let result = "";
   if (playerChoice === computerChoice) {
-    result = "⚖️ A silent equilibrium. Nothing shifts.";
+    result = "⚖️ Balance held. Neither logic dominates.";
   } else if (
     (playerChoice === "rock" && computerChoice === "scissors") ||
     (playerChoice === "paper" && computerChoice === "rock") ||
@@ -84,7 +88,7 @@ function playRound(playerChoice) {
     result = "✅ Logic breach successful. You remain undetected.";
     playerScore++;
   } else {
-    result = "❌ Your path collapses. Simulation reinforced.";
+    result = "❌ Your pattern was parsed. The simulation adapts.";
     computerScore++;
   }
 
@@ -107,17 +111,13 @@ function clearResults() {
 }
 
 function declareWinner() {
-  const final = document.getElementById("finalResult");
-  const game = document.getElementById("game");
-  const restartBtn = document.getElementById("restart");
-
-  // Hide choices after game ends
+  document.getElementById("score").innerText = "🛑 Game Over!";
   document.getElementById("choices").style.display = "none";
   document.getElementById("playerMove").style.display = "none";
   document.getElementById("computerMove").style.display = "none";
   document.getElementById("roundResult").style.display = "none";
-  document.getElementById("score").innerText = "🛑 Game Over!";
 
+  const final = document.getElementById("finalResult");
   if (playerScore > computerScore) {
     final.innerText = "🎉 The anomaly is contained. For now, your consciousness prevails.";
   } else if (computerScore > playerScore) {
@@ -126,17 +126,14 @@ function declareWinner() {
     final.innerText = "🤝 Balance achieved. The Engine observes in silence.";
   }
 
-  restartBtn.style.display = "block";
+  const restart = document.getElementById("restart");
+  restart.style.display = "inline-block";
 }
 
 function restartGame() {
   document.getElementById("restartMessage").innerText = "🔁 Recalibrating perception… Do you dare breach the loop again?";
-  document.getElementById("choices").style.display = "flex";
-  document.getElementById("playerMove").style.display = "block";
-  document.getElementById("computerMove").style.display = "block";
-  document.getElementById("roundResult").style.display = "block";
+  document.getElementById("restartMessage").style.display = "block";
+  document.getElementById("round-selection").style.display = "block";
   document.getElementById("finalResult").innerText = "";
   document.getElementById("restart").style.display = "none";
-
-  document.getElementById("round-selection").style.display = "block";
 }
