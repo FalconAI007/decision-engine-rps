@@ -1,0 +1,148 @@
+/* Base styling */
+* {
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(circle, #000000, #0f0f0f);
+  color: #00ffcc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/* Typewriter effect */
+#story {
+  border-right: 2px solid #00ffcc;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 18px;
+  max-width: 80ch;
+  animation: blink-caret 0.75s step-end infinite;
+  margin: 40px auto;
+  text-shadow: 0 0 10px #00ffcc;
+}
+
+@keyframes blink-caret {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: #00ffcc; }
+}
+
+/* Game container */
+#game {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* Score section */
+#scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #00ffcc;
+}
+
+#playerScore, #computerScore {
+  transition: transform 0.3s ease;
+}
+
+.animate-score {
+  transform: scale(1.5);
+}
+
+/* Button group */
+button, select {
+  padding: 12px 25px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  background: #00ffcc;
+  color: #000;
+  cursor: pointer;
+  box-shadow: 0 0 15px #00ffcc;
+  transition: 0.3s ease;
+}
+
+button:hover, select:hover {
+  background: #00ffaa;
+  transform: translateY(-2px);
+}
+
+#choices {
+  display: flex;
+  gap: 30px;
+}
+
+.choice {
+  width: 80px;
+  height: 80px;
+  background: #111;
+  border-radius: 50%;
+  border: 2px solid #00ffcc;
+  box-shadow: 0 0 15px #00ffcc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease;
+}
+
+.choice img {
+  width: 50px;
+  height: 50px;
+}
+
+.choice:hover {
+  background: #222;
+  transform: scale(1.1);
+}
+
+#result {
+  margin: 20px;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+#finalMessage {
+  font-size: 1.5rem;
+  color: #ff6666;
+  text-shadow: 0 0 10px red;
+  margin-top: 10px;
+}
+
+/* Round selector */
+#roundSelector {
+  margin-top: 20px;
+}
+
+/* Play button */
+#startButton {
+  margin-top: 20px;
+  padding: 14px 28px;
+  font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  #choices {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  #scoreboard {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
