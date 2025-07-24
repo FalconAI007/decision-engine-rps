@@ -7,23 +7,22 @@ let currentRound = 0;
 const backgroundMusic = document.getElementById("bg-music");
 backgroundMusic.loop = true;
 
-// Creative narrative feedback
 const playerMessages = {
-  rock: "🪨 You deploy Solidity. A classic rebellion.",
-  paper: "📜 You unveil the blueprint. Intent is now traceable.",
-  scissors: "✂️ You slice the code. Destabilization initiated."
+  rock: "🪨 You deploy Solidity. A subtle resistance.",
+  paper: "📜 You unfold the blueprint. Patterns reveal.",
+  scissors: "✂️ You cut deep into code. Divergence begins."
 };
 
 const computerMessages = {
-  rock: "🪨 The Core stabilizes with gravity.",
-  paper: "📜 The Engine wraps your defiance in documentation.",
-  scissors: "✂️ But lines of logic cut deep."
+  rock: "🪨 Engine invokes mass. Solidity restored.",
+  paper: "📜 System wraps logic in layers of control.",
+  scissors: "✂️ Code severed clean. Chaos reframed."
 };
 
 function startGame() {
   document.getElementById("start-screen").style.display = "none";
   document.getElementById("typewriter").style.display = "block";
-  backgroundMusic.play().catch(() => console.warn("Audio autoplay blocked"));
+  backgroundMusic.play().catch(() => {});
   loadStory();
 }
 
@@ -47,7 +46,7 @@ function loadStory() {
       clearInterval(interval);
       document.getElementById("round-selection").style.display = "block";
     }
-  }, 80);
+  }, 120); // slower speed
 }
 
 function setRounds(n) {
@@ -57,34 +56,31 @@ function setRounds(n) {
   computerScore = 0;
   document.getElementById("round-selection").style.display = "none";
   document.getElementById("game").style.display = "block";
-  document.getElementById("playerMove").innerText = "";
-  document.getElementById("computerMove").innerText = "";
-  document.getElementById("roundResult").innerText = "";
-  document.getElementById("finalResult").innerText = "";
   document.getElementById("restart").style.display = "none";
   updateScore();
+  clearResults();
 }
 
 function playRound(playerChoice) {
   if (currentRound > totalRounds) return;
 
   const computerChoice = choices[Math.floor(Math.random() * choices.length)];
-  let result = "";
 
   document.getElementById("playerMove").innerText = playerMessages[playerChoice];
-  document.getElementById("computerMove").innerText = computerMessages[computerChoice];
+  document.getElementById("computerMove").innerText = `🤖 The Engine chose ${computerChoice.toUpperCase()}. ${computerMessages[computerChoice]}`;
 
+  let result = "";
   if (playerChoice === computerChoice) {
-    result = "⚖️ It's a tie. The code hesitates.";
+    result = "⚖️ A perfect standoff. Entropy withheld.";
   } else if (
     (playerChoice === "rock" && computerChoice === "scissors") ||
     (playerChoice === "paper" && computerChoice === "rock") ||
     (playerChoice === "scissors" && computerChoice === "paper")
   ) {
-    result = "✅ Protocol shift successful. You win this loop.";
+    result = "✅ Logic bend successful. You shift the timeline.";
     playerScore++;
   } else {
-    result = "❌ Your deviation failed. The engine resists.";
+    result = "❌ Your pattern collapses. The Engine adapts.";
     computerScore++;
   }
 
@@ -92,13 +88,18 @@ function playRound(playerChoice) {
   updateScore();
   currentRound++;
 
-  if (currentRound > totalRounds) {
-    declareWinner();
-  }
+  if (currentRound > totalRounds) declareWinner();
 }
 
 function updateScore() {
   document.getElementById("score").innerText = `🧑 Player: ${playerScore} | 🤖 Engine: ${computerScore}`;
+}
+
+function clearResults() {
+  document.getElementById("playerMove").innerText = "";
+  document.getElementById("computerMove").innerText = "";
+  document.getElementById("roundResult").innerText = "";
+  document.getElementById("finalResult").innerText = "";
 }
 
 function declareWinner() {
@@ -106,15 +107,18 @@ function declareWinner() {
   if (playerScore > computerScore) {
     final.innerText = "🎉 The anomaly is contained. For now, your consciousness prevails.";
   } else if (computerScore > playerScore) {
-    final.innerText = "💀 The anomaly exceeds thresholds. Conscious override denied. You are now part of the simulation.";
+    final.innerText = "💀 Conscious override denied. You now run inside the simulation.";
   } else {
-    final.innerText = "🤝 Neither outcome is dominant. The engine will wait. But it remembers.";
+    final.innerText = "🤝 Balance achieved. The Engine observes in silence.";
   }
+
   document.getElementById("restart").style.display = "block";
 }
 
 function restartGame() {
   document.getElementById("typewriter").innerText = "";
   document.getElementById("game").style.display = "none";
+  document.getElementById("restart").style.display = "none";
   loadStory();
 }
+
