@@ -5,47 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Decision Engine: Anomaly Protocol</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/favicon.ico" />
 </head>
 <body>
-  <audio id="bg-audio" src="assets/background.mp3" loop autoplay></audio>
+  <div id="typewriter"></div>
 
-  <div class="intro">
-    <pre id="typewriter">
-    </pre>
-    <div id="start-options" class="hidden">
-      <h2>Select Rounds</h2>
-      <button onclick="setRounds(5)">Best of 5</button>
-      <button onclick="setRounds(10)">Best of 10</button>
-    </div>
+  <div id="round-selection">
+    <h2>Select Rounds</h2>
+    <button onclick="setRounds(3)">Best of 3</button>
+    <button onclick="setRounds(5)">Best of 5</button>
+    <button onclick="setRounds(10)">Best of 10</button>
   </div>
 
-  <div class="game hidden">
-    <div class="scores">
-      <div class="score-box player-score">
-        <h3>Player</h3>
-        <span id="playerScore">0</span>
-      </div>
-      <div class="score-box round-box">
-        <h3>Round</h3>
-        <span id="roundCount">1</span>
-      </div>
-      <div class="score-box computer-score">
-        <h3>Computer</h3>
-        <span id="computerScore">0</span>
-      </div>
-    </div>
+  <div id="game" style="display: none;">
+    <h2>Choose your move</h2>
+    <button onclick="playRound('rock')">🪨 Rock</button>
+    <button onclick="playRound('paper')">📄 Paper</button>
+    <button onclick="playRound('scissors')">✂️ Scissors</button>
 
-    <div class="choices">
-      <button onclick="playRound('rock')">🪨 Rock</button>
-      <button onclick="playRound('paper')">📄 Paper</button>
-      <button onclick="playRound('scissors')">✂️ Scissors</button>
-    </div>
-
-    <div id="result"></div>
-    <div id="finalResult" class="hidden"></div>
+    <p id="roundResult"></p>
+    <p id="score">🧑 Player: 0 | 🤖 Computer: 0</p>
+    <p id="finalResult"></p>
   </div>
+
+  <audio autoplay loop>
+    <source src="assets/background.mp3" type="audio/mpeg">
+  </audio>
 
   <script src="script.js"></script>
 </body>

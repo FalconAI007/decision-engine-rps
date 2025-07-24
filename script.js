@@ -1,127 +1,79 @@
-// Sound effects
-const winSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-game-win-2016.mp3');
-const loseSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-losing-piano-2021.mp3');
-const drawSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.wav');
-
-const storyText = `In a not-so-distant future, humanity's decisions are entrusted to AI engines to avoid emotional bias. Among these engines is the "Decision Engine: Anomaly Protocol"—a rock-paper-scissors simulator designed to detect anomalies in decision making patterns. You are now a test subject in this simulation. Good luck.`;
-
-let i = 0;
+const choices = ["rock", "paper", "scissors"];
 let playerScore = 0;
 let computerScore = 0;
-let roundsToWin = 5;
-let gameStarted = false;
+let totalRounds = 0;
+let currentRound = 0;
 
-const storyElement = document.getElementById("story");
-const gameContainer = document.getElementById("game");
-const startButton = document.getElementById("startButton");
-const finalMessage = document.getElementById("finalMessage");
-const playerScoreEl = document.getElementById("playerScore");
-const computerScoreEl = document.getElementById("computerScore");
+window.onload = function () {
+  const storyText = "Welcome to the Decision Engine: Anomaly Protocol.\n\nYou have been selected by the ACM Core to interact with an ancient AI built to judge anomalies in decision-making.\n\nOnly through games of strategy and luck can the protocol be satisfied.\n\nWill you prevail, or be classified as a threat to the machine logic?";
+  typeWriter(storyText, () => {
+    document.getElementById("round-selection").style.display = "block";
+  });
+};
 
-// Typewriter effect
-function typeWriter() {
-  if (i < storyText.length) {
-    storyElement.innerHTML += storyText.charAt(i);
-    i++;
-    setTimeout(typeWriter, 30);
-  } else {
-    startButton.style.display = "inline-block";
+function typeWriter(text, callback, i = 0) {
+  const typewriterDiv = document.getElementById("typewriter");
+  if (!typewriterDiv) return;
+  if (i < text.length) {
+    typewriterDiv.innerHTML += text.charAt(i);
+    setTimeout(() => typeWriter(text, callback, i + 1), 40);
+  } else if (callback) {
+    callback();
   }
 }
 
-typeWriter();
-
-startButton.addEventListener("click", () => {
-  startButton.style.display = "none";
-  storyElement.style.display = "none";
-  gameContainer.style.display = "flex";
-});
-
-document.getElementById("rounds").addEventListener("change", function () {
-  roundsToWin = parseInt(this.value);
-  resetGame();
-});
-
-const choices = ["rock", "paper", "scissors"];
-const choiceImages = {
-  rock: "https://cdn-icons-png.flaticon.com/512/3116/3116491.png",
-  paper: "https://cdn-icons-png.flaticon.com/512/3116/3116474.png",
-  scissors: "https://cdn-icons-png.flaticon.com/512/3116/3116484.png"
-};
-
-document.querySelectorAll(".choice").forEach(choice => {
-  choice.addEventListener("click", () => {
-    if (!gameStarted) gameStarted = true;
-    const playerChoice = choice.getAttribute("data-choice");
-    playRound(playerChoice);
-  });
-});
+function setRounds(n) {
+  totalRounds = n;
+  currentRound = 1;
+  playerScore = 0;
+  computerScore = 0;
+  document.getElementById("round-selection").style.display = "none";
+  document.getElementById("game").style.display = "block";
+  updateScore();
+}
 
 function playRound(playerChoice) {
-  const computerChoice = choices[Math.floor(Math.random() * 3)];
-  const result = getResult(playerChoice, computerChoice);
+  if (currentRound > totalRounds) return;
 
-  const resultEl = document.getElementById("result");
-  resultEl.innerHTML = `
-    <strong>You:</strong> ${playerChoice.toUpperCase()} <img src="${choiceImages[playerChoice]}" width="25"> <br>
-    <strong>Computer:</strong> ${computerChoice.toUpperCase()} <img src="${choiceImages[computerChoice]}" width="25"> <br>
-    <strong>Outcome:</strong> ${result.toUpperCase()}
-  `;
+  const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+  let result = "";
 
-  if (result === "win") {
+  if (playerChoice === computerChoice) {
+    result = "It's a tie!";
+  } else if (
+    (playerChoice === "rock" && computerChoice === "scissors") ||
+    (playerChoice === "paper" && computerChoice === "rock") ||
+    (playerChoice === "scissors" && computerChoice === "paper")
+  ) {
+    result = "You win this round!";
     playerScore++;
-    animateScore(playerScoreEl);
-    winSound.play();
-  } else if (result === "lose") {
-    computerScore++;
-    animateScore(computerScoreEl);
-    loseSound.play();
   } else {
-    drawSound.play();
+    result = "Computer wins this round.";
+    computerScore++;
   }
 
-  updateScores();
+  document.getElementById("roundResult").innerText = result;
+  updateScore();
+  currentRound++;
 
-  if (playerScore === roundsToWin || computerScore === roundsToWin) {
+  if (currentRound > totalRounds) {
     declareWinner();
   }
 }
 
-function getResult(player, computer) {
-  if (player === computer) return "draw";
-  if (
-    (player === "rock" && computer === "scissors") ||
-    (player === "paper" && computer === "rock") ||
-    (player === "scissors" && computer === "paper")
-  ) {
-    return "win";
-  }
-  return "lose";
-}
-
-function updateScores() {
-  playerScoreEl.textContent = `Player: ${playerScore}`;
-  computerScoreEl.textContent = `Computer: ${computerScore}`;
-}
-
-function animateScore(el) {
-  el.classList.add("animate-score");
-  setTimeout(() => el.classList.remove("animate-score"), 300);
+function updateScore() {
+  const scoreDisplay = document.getElementById("score");
+  scoreDisplay.innerText = `🧑 Player: ${playerScore} | 🤖 Computer: ${computerScore}`;
 }
 
 function declareWinner() {
-  finalMessage.textContent = playerScore > computerScore ? "🎉 YOU WIN THE SIMULATION!" : "💀 YOU LOST. TRY AGAIN.";
-  gameStarted = false;
-
-  setTimeout(() => {
-    resetGame();
-  }, 5000);
+  const final = document.getElementById("finalResult");
+  if (playerScore > computerScore) {
+    final.innerText = "🎉 You win the game! The anomaly is... stable.";
+  } else if (computerScore > playerScore) {
+    final.innerText = "💀 Computer wins. The anomaly must be terminated.";
+  } else {
+    final.innerText = "🤝 It's a draw! The machine remains undecided.";
+  }
 }
 
-function resetGame() {
-  playerScore = 0;
-  computerScore = 0;
-  updateScores();
-  document.getElementById("result").textContent = "";
-  finalMessage.textContent = "";
-}
