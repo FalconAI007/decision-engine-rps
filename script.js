@@ -119,11 +119,11 @@ function declareWinner() {
 
   const final = document.getElementById("finalResult");
   if (playerScore > computerScore) {
-    final.innerText = "🎉 The anomaly is contained. For now, your consciousness prevails.";
+    final.innerText = "YOU WON! 🎉 The anomaly is contained. For now, your consciousness prevails.";
   } else if (computerScore > playerScore) {
-    final.innerText = "💀 Conscious override denied. You now run inside the simulation.";
+    final.innerText = "YOU LOST! 💀 Conscious override denied. You now run inside the simulation.";
   } else {
-    final.innerText = "🤝 Balance achieved. The Engine observes in silence.";
+    final.innerText = "TIE! 🤝 Balance achieved. The Engine observes in silence.";
   }
 
   const restart = document.getElementById("restart");
