@@ -8,15 +8,15 @@ const backgroundMusic = document.getElementById("bg-music");
 backgroundMusic.loop = true;
 
 const playerMessages = {
-  rock: "🪨 You deploy Solidity. A subtle resistance.",
-  paper: "📜 You unfold the blueprint. Patterns reveal.",
-  scissors: "✂️ You cut deep into code. Divergence begins."
+  rock: "🪨 You deploy Solidity. Quiet but firm.",
+  paper: "📜 You unfold the blueprint. Calm precision.",
+  scissors: "✂️ You cut through the noise. Intent clear."
 };
 
 const computerMessages = {
-  rock: "🪨 Engine invokes mass. Solidity restored.",
-  paper: "📜 System wraps logic in layers of control.",
-  scissors: "✂️ Code severed clean. Chaos reframed."
+  rock: "🪨 The Engine grounds with mass. It watches.",
+  paper: "📜 Layers of logic veil the anomaly.",
+  scissors: "✂️ Systems slice with surgical precision."
 };
 
 function startGame() {
@@ -38,6 +38,7 @@ function loadStory() {
 
   let i = 0;
   const typeDiv = document.getElementById("typewriter");
+  typeDiv.innerText = "";
   const interval = setInterval(() => {
     if (i < storyLines.length) {
       typeDiv.innerHTML += storyLines[i] + "\n\n";
@@ -46,7 +47,7 @@ function loadStory() {
       clearInterval(interval);
       document.getElementById("round-selection").style.display = "block";
     }
-  }, 120); // slower speed
+  }, 180); // slower typewriter effect
 }
 
 function setRounds(n) {
@@ -54,11 +55,14 @@ function setRounds(n) {
   currentRound = 1;
   playerScore = 0;
   computerScore = 0;
+
   document.getElementById("round-selection").style.display = "none";
   document.getElementById("game").style.display = "block";
   document.getElementById("restart").style.display = "none";
-  updateScore();
+  document.getElementById("restartMessage").innerText = "";
+
   clearResults();
+  updateScore();
 }
 
 function playRound(playerChoice) {
@@ -67,20 +71,20 @@ function playRound(playerChoice) {
   const computerChoice = choices[Math.floor(Math.random() * choices.length)];
 
   document.getElementById("playerMove").innerText = playerMessages[playerChoice];
-  document.getElementById("computerMove").innerText = `🤖 The Engine chose ${computerChoice.toUpperCase()}. ${computerMessages[computerChoice]}`;
+  document.getElementById("computerMove").innerText = `🤖 The Engine chooses ${computerChoice.toUpperCase()}. ${computerMessages[computerChoice]}`;
 
   let result = "";
   if (playerChoice === computerChoice) {
-    result = "⚖️ A perfect standoff. Entropy withheld.";
+    result = "⚖️ A silent equilibrium. Nothing shifts.";
   } else if (
     (playerChoice === "rock" && computerChoice === "scissors") ||
     (playerChoice === "paper" && computerChoice === "rock") ||
     (playerChoice === "scissors" && computerChoice === "paper")
   ) {
-    result = "✅ Logic bend successful. You shift the timeline.";
+    result = "✅ Logic breach successful. You remain undetected.";
     playerScore++;
   } else {
-    result = "❌ Your pattern collapses. The Engine adapts.";
+    result = "❌ Your path collapses. Simulation reinforced.";
     computerScore++;
   }
 
@@ -104,6 +108,16 @@ function clearResults() {
 
 function declareWinner() {
   const final = document.getElementById("finalResult");
+  const game = document.getElementById("game");
+  const restartBtn = document.getElementById("restart");
+
+  // Hide choices after game ends
+  document.getElementById("choices").style.display = "none";
+  document.getElementById("playerMove").style.display = "none";
+  document.getElementById("computerMove").style.display = "none";
+  document.getElementById("roundResult").style.display = "none";
+  document.getElementById("score").innerText = "🛑 Game Over!";
+
   if (playerScore > computerScore) {
     final.innerText = "🎉 The anomaly is contained. For now, your consciousness prevails.";
   } else if (computerScore > playerScore) {
@@ -112,13 +126,17 @@ function declareWinner() {
     final.innerText = "🤝 Balance achieved. The Engine observes in silence.";
   }
 
-  document.getElementById("restart").style.display = "block";
+  restartBtn.style.display = "block";
 }
 
 function restartGame() {
-  document.getElementById("typewriter").innerText = "";
-  document.getElementById("game").style.display = "none";
+  document.getElementById("restartMessage").innerText = "🔁 Recalibrating perception… Do you dare breach the loop again?";
+  document.getElementById("choices").style.display = "flex";
+  document.getElementById("playerMove").style.display = "block";
+  document.getElementById("computerMove").style.display = "block";
+  document.getElementById("roundResult").style.display = "block";
+  document.getElementById("finalResult").innerText = "";
   document.getElementById("restart").style.display = "none";
-  loadStory();
-}
 
+  document.getElementById("round-selection").style.display = "block";
+}

@@ -26,7 +26,7 @@ body {
   height: 100vh;
   object-fit: cover;
   z-index: -1;
-  filter: brightness(0.1) contrast(1.3);
+  filter: brightness(0.35) contrast(1.3); /* now visible but still dark-themed */
 }
 
 #start-screen, #typewriter, #round-selection, #game {
@@ -96,6 +96,12 @@ button:hover {
 #restart {
   margin-top: 20px;
   display: none;
+}
+
+#restartMessage {
+  font-style: italic;
+  color: #ccc;
+  margin-top: 10px;
 }
 
 /* Responsive */
