@@ -77,3 +77,13 @@ function declareWinner() {
   }
 }
 
+// 🔊 Background music (plays on first user click to avoid autoplay issues)
+let backgroundMusic = new Audio("assets/background.mp3");
+backgroundMusic.loop = true;
+
+// Play music on first user click (required for autoplay to work)
+document.body.addEventListener('click', () => {
+  backgroundMusic.play().catch((e) => {
+    console.warn("Autoplay blocked. Music will start on next click.");
+  });
+}, { once: true });
