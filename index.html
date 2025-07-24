@@ -2,35 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Decision Engine: Anomaly Protocol</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Decision Engine: Phase Shift</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="assets/favicon.ico" />
 </head>
 <body>
-  <div id="typewriter"></div>
 
-  <div id="round-selection">
+  <!-- Background Video -->
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="assets/matrix-background.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Start Screen -->
+  <div id="start-screen">
+    <h1>Decision Engine: Phase Shift</h1>
+    <button onclick="startGame()">Start Game</button>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bg-music" src="assets/background.mp3" loop></audio>
+
+  <!-- Typewriter Story -->
+  <div id="typewriter" style="display:none;"></div>
+
+  <!-- Round Selection -->
+  <div id="round-selection" style="display:none;">
     <h2>Select Rounds</h2>
-    <button onclick="setRounds(3)">Best of 3</button>
     <button onclick="setRounds(5)">Best of 5</button>
     <button onclick="setRounds(10)">Best of 10</button>
   </div>
 
-  <div id="game" style="display: none;">
-    <h2>Choose your move</h2>
-    <button onclick="playRound('rock')">🪨 Rock</button>
-    <button onclick="playRound('paper')">📄 Paper</button>
-    <button onclick="playRound('scissors')">✂️ Scissors</button>
-
-    <p id="roundResult"></p>
-    <p id="score">🧑 Player: 0 | 🤖 Computer: 0</p>
-    <p id="finalResult"></p>
+  <!-- Game Area -->
+  <div id="game" style="display:none;">
+    <div id="score"></div>
+    <div id="playerMove"></div>
+    <div id="computerMove"></div>
+    <div id="choices">
+      <button onclick="playRound('rock')">🪨 Rock</button>
+      <button onclick="playRound('paper')">📜 Paper</button>
+      <button onclick="playRound('scissors')">✂️ Scissors</button>
+    </div>
+    <div id="roundResult"></div>
+    <div id="finalResult"></div>
+    <button id="restart" onclick="restartGame()" style="display:none;">
+      🔁 Recalibrating perception… Do you dare breach the loop again?
+    </button>
   </div>
-
-  <audio autoplay loop>
-    <source src="assets/background.mp3" type="audio/mpeg">
-  </audio>
 
   <script src="script.js"></script>
 </body>

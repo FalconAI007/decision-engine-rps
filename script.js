@@ -4,22 +4,50 @@ let computerScore = 0;
 let totalRounds = 0;
 let currentRound = 0;
 
-window.onload = function () {
-  const storyText = "Welcome to the Decision Engine: Anomaly Protocol.\n\nYou have been selected by the ACM Core to interact with an ancient AI built to judge anomalies in decision-making.\n\nOnly through games of strategy and luck can the protocol be satisfied.\n\nWill you prevail, or be classified as a threat to the machine logic?";
-  typeWriter(storyText, () => {
-    document.getElementById("round-selection").style.display = "block";
-  });
+const backgroundMusic = document.getElementById("bg-music");
+backgroundMusic.loop = true;
+
+// Creative narrative feedback
+const playerMessages = {
+  rock: "🪨 You deploy Solidity. A classic rebellion.",
+  paper: "📜 You unveil the blueprint. Intent is now traceable.",
+  scissors: "✂️ You slice the code. Destabilization initiated."
 };
 
-function typeWriter(text, callback, i = 0) {
-  const typewriterDiv = document.getElementById("typewriter");
-  if (!typewriterDiv) return;
-  if (i < text.length) {
-    typewriterDiv.innerHTML += text.charAt(i);
-    setTimeout(() => typeWriter(text, callback, i + 1), 40);
-  } else if (callback) {
-    callback();
-  }
+const computerMessages = {
+  rock: "🪨 The Core stabilizes with gravity.",
+  paper: "📜 The Engine wraps your defiance in documentation.",
+  scissors: "✂️ But lines of logic cut deep."
+};
+
+function startGame() {
+  document.getElementById("start-screen").style.display = "none";
+  document.getElementById("typewriter").style.display = "block";
+  backgroundMusic.play().catch(() => console.warn("Audio autoplay blocked"));
+  loadStory();
+}
+
+function loadStory() {
+  const storyLines = [
+    "In a world rewritten by code, where past, present, and future converge...",
+    "You are not just a player. You are the anomaly.",
+    "ACM—The Archive of Conscious Minds—has activated the Decision Engine to test your deviation from deterministic logic.",
+    "This is not a game. It's a protocol to predict chaos.",
+    "The choices you make will echo through subroutines beyond your reality.",
+    "Welcome, Initiator."
+  ];
+
+  let i = 0;
+  const typeDiv = document.getElementById("typewriter");
+  const interval = setInterval(() => {
+    if (i < storyLines.length) {
+      typeDiv.innerHTML += storyLines[i] + "\n\n";
+      i++;
+    } else {
+      clearInterval(interval);
+      document.getElementById("round-selection").style.display = "block";
+    }
+  }, 80);
 }
 
 function setRounds(n) {
@@ -29,6 +57,11 @@ function setRounds(n) {
   computerScore = 0;
   document.getElementById("round-selection").style.display = "none";
   document.getElementById("game").style.display = "block";
+  document.getElementById("playerMove").innerText = "";
+  document.getElementById("computerMove").innerText = "";
+  document.getElementById("roundResult").innerText = "";
+  document.getElementById("finalResult").innerText = "";
+  document.getElementById("restart").style.display = "none";
   updateScore();
 }
 
@@ -38,17 +71,20 @@ function playRound(playerChoice) {
   const computerChoice = choices[Math.floor(Math.random() * choices.length)];
   let result = "";
 
+  document.getElementById("playerMove").innerText = playerMessages[playerChoice];
+  document.getElementById("computerMove").innerText = computerMessages[computerChoice];
+
   if (playerChoice === computerChoice) {
-    result = "It's a tie!";
+    result = "⚖️ It's a tie. The code hesitates.";
   } else if (
     (playerChoice === "rock" && computerChoice === "scissors") ||
     (playerChoice === "paper" && computerChoice === "rock") ||
     (playerChoice === "scissors" && computerChoice === "paper")
   ) {
-    result = "You win this round!";
+    result = "✅ Protocol shift successful. You win this loop.";
     playerScore++;
   } else {
-    result = "Computer wins this round.";
+    result = "❌ Your deviation failed. The engine resists.";
     computerScore++;
   }
 
@@ -62,28 +98,23 @@ function playRound(playerChoice) {
 }
 
 function updateScore() {
-  const scoreDisplay = document.getElementById("score");
-  scoreDisplay.innerText = `🧑 Player: ${playerScore} | 🤖 Computer: ${computerScore}`;
+  document.getElementById("score").innerText = `🧑 Player: ${playerScore} | 🤖 Engine: ${computerScore}`;
 }
 
 function declareWinner() {
   const final = document.getElementById("finalResult");
   if (playerScore > computerScore) {
-    final.innerText = "🎉 You win the game! The anomaly is... stable.";
+    final.innerText = "🎉 The anomaly is contained. For now, your consciousness prevails.";
   } else if (computerScore > playerScore) {
-    final.innerText = "💀 Computer wins. The anomaly must be terminated.";
+    final.innerText = "💀 The anomaly exceeds thresholds. Conscious override denied. You are now part of the simulation.";
   } else {
-    final.innerText = "🤝 It's a draw! The machine remains undecided.";
+    final.innerText = "🤝 Neither outcome is dominant. The engine will wait. But it remembers.";
   }
+  document.getElementById("restart").style.display = "block";
 }
 
-// 🔊 Background music (plays on first user click to avoid autoplay issues)
-let backgroundMusic = new Audio("assets/background.mp3");
-backgroundMusic.loop = true;
-
-// Play music on first user click (required for autoplay to work)
-document.body.addEventListener('click', () => {
-  backgroundMusic.play().catch((e) => {
-    console.warn("Autoplay blocked. Music will start on next click.");
-  });
-}, { once: true });
+function restartGame() {
+  document.getElementById("typewriter").innerText = "";
+  document.getElementById("game").style.display = "none";
+  loadStory();
+}
